@@ -2,8 +2,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
 
 type User ={
-    id: string,
-    role: string,
+    id: string
 }
 declare module 'express' {
     interface Request {
