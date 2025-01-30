@@ -6,7 +6,7 @@ const router = Router();
 
 router.post("/register", createUser)
 router.post("/login", loginUser)
-router.get('/user', verifyToken, loggedinUser)
+router.get('/me', verifyToken, loggedinUser)
 router.get('/:id', verifyToken, getUser)
 
 export default router

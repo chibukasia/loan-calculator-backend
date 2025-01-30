@@ -64,8 +64,13 @@ export const loginUser = async (req: Request, res: Response) => {
 };
 
 export const loggedinUser = async (req: Request, res: Response) => {
-  const user = await findUser(req, res);
-  res.status(200).json(user);
+  try{
+    const user = await findUser(req, res);
+    res.status(200).json(user);
+  }catch(error){
+    userErrorHandler(error, res)
+  }
+  
 };
 
 export const getUser = async (req: Request, res: Response) => {
@@ -80,9 +85,10 @@ export const getUser = async (req: Request, res: Response) => {
 };
 
 const findUser = async (req: Request, res: Response) => {
+  const userId = req.user.id
   const user = await prisma.user.findUnique({
     where: {
-      id: req.params.id,
+      id: req.params.id ?? userId,
     },
     omit: { password: true },
   });
