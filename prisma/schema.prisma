@@ -18,6 +18,46 @@ model User {
   email     String   @unique
   name      String
   password  String
+  loans      Loan[]  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
+
+model Loan {
+  id               String             @id @default(uuid())
+  userId           String             // Foreign key for User
+  user             User               @relation(fields: [userId], references: [id])
+  principalAmount  Float              // Original loan amount
+  interestRate     Float              // Interest rate value
+  interestRateType InterestRateType   // MONTHLY or ANNUAL
+  termMonths       Int                // Loan term in months
+  repaymentFrequency RepaymentFrequency // MONTHLY or ANNUAL
+  monthlyPayment   Float?             // Calculated payment
+  amortizationSchedules AmortizationSchedule[] // One-to-many relationship
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+}
+
+model AmortizationSchedule {
+  id           String   @id @default(uuid())
+  loanId       String   // Foreign key for Loan
+  loan         Loan     @relation(fields: [loanId], references: [id])
+  paymentDate  DateTime // Payment date
+  principalPaid Float   // Amount of principal paid
+  interestPaid  Float   // Amount of interest paid
+  balance       Float   // Remaining loan balance
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+enum InterestRateType {
+  MONTHLY
+  ANNUAL
+}
+
+enum RepaymentFrequency {
+  MONTHLY
+  ANNUAL
+}
+

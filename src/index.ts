@@ -4,6 +4,7 @@ import bodyParser = require("body-parser");
 import cors from 'cors'
 import users from './routes/user'
 import auth from './routes/auth'
+import loans from './routes/loan'
 
 
 dotenv.config();
@@ -20,6 +21,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use('/api/users', users)
 app.use('/api/login', auth)
+app.use('/api/loans', loans)
 
 app.listen(port, () => {
   return console.log(`Express is listening at http://localhost:${port}`);
